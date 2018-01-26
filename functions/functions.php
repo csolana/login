@@ -76,9 +76,28 @@ function validate_user_registration(){
             $errors[] = "Your first name can't be less then {$min} characters";
         }
 
+        if(strlen($first_name ) > $max) {
+
+            $errors[] = "Your last name can't be more than {$min} characters";
+        }
+
         if(strlen($last_name) < $min) {
 
             $errors[] = "Your last name can't be less then {$min} characters";
+        }
+
+        if(strlen($last_name) > $max) {
+
+            $errors[] = "Your last name can't be more than {$min} characters";
+        }
+
+        if(strlen($username) < $min) {
+
+            $errors[] = "Your username name can't be less then {$min} characters";
+        }
+        if(strlen($username) > $max) {
+
+            $errors[] = "Your username name can't be less then {$min} characters";
         }
 
 if(!empty($errors)) {
