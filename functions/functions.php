@@ -52,6 +52,52 @@ function token_generator(){
 
 }
 
+
+//Display error function
+
+function validation_errors($error_message) {
+
+    $error_message = <<<DELIMETER
+                <div class="alert alert-danger alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>Warning!</strong>  $error_message
+  </div>
+DELIMETER;
+
+    return $error_message;
+
+
+}
+
+
+function email_exists($email){
+
+    $sql = "SELECT id FROM users WHERE email = '$email'";
+
+    $result = query($sql);
+
+    if(row_count($result) == 1 ) {
+        return true;
+    } else {
+
+        return false;
+    }
+}
+
+function username_exists($username){
+
+    $sql = "SELECT id FROM users WHERE username = '$username'";
+
+    $result = query($sql);
+
+    if(row_count($result) == 1 ) {
+        return true;
+    } else {
+
+        return false;
+    }
+}
+
 ///******************* validating functions ****************/
 
 function validate_user_registration(){
@@ -78,7 +124,7 @@ function validate_user_registration(){
 
         if(strlen($first_name ) > $max) {
 
-            $errors[] = "Your last name can't be more than {$min} characters";
+            $errors[] = "Your last name can't be more than {$max} characters";
         }
 
         if(strlen($last_name) < $min) {
@@ -88,7 +134,7 @@ function validate_user_registration(){
 
         if(strlen($last_name) > $max) {
 
-            $errors[] = "Your last name can't be more than {$min} characters";
+            $errors[] = "Your last name can't be more than {$max} characters";
         }
 
         if(strlen($username) < $min) {
@@ -97,14 +143,34 @@ function validate_user_registration(){
         }
         if(strlen($username) > $max) {
 
-            $errors[] = "Your username name can't be less then {$min} characters";
+            $errors[] = "Your username name can't be more than {$max} characters";
+        }
+
+        if(username_exists($username)) {
+            $errors[] = "Sorry that username already exists, think of another one";
+        }
+
+        if(email_exists($email)) {
+            $errors[] = "Sorry that email already exists";
+        }
+
+        if(strlen($email) > $min) {
+
+            $errors[] = "Your email can't be less than {$min} characters";
+        }
+
+        if($password !== $confirm_password) {
+
+            $errors[] = "Your password don't match";
         }
 
 if(!empty($errors)) {
 
             foreach ($errors as $error) {
 
-                echo $error;
+// Error display
+              echo validation_errors($error);
+
             }
 
 }

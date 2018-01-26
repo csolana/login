@@ -41,25 +41,4 @@ function fetch_array($result) {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ?>
